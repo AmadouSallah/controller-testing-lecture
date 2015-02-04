@@ -1,29 +1,46 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
-describe "IndexController (this is a skeleton controller test!)" do
+describe "articles_controller" do
+  describe "GET /articles" do
+    it "renders a successful status" do
+      # arrange
+      # act
+      get '/articles'
+      # assert
+      expect(last_response.status).to eq(200)
+    end
 
-  describe 'get all bands' do
-    it 'should see all bands' do
-      get "/bands"
-      expect(last_response).to be_ok
+    it "renders a list of articles" do
+      # arrange
+      Article.create(title: "My Article")
+      # act
+      get '/articles'
+      # assert
+      expect(last_response.body).to include("My Article")
     end
   end
 
-  describe 'create a new band' do
-    band_name = 'chromatics'
-    new_params = {
-        name: band_name
-      }
-    new_session = {
-      'rack.session' => {
-        # Could preload stuff into the session here...
-      }
-    }
-    it 'should add a new band' do
-      expect{
-        post('/bands', new_params, new_session)
-      }.to change(Band, :count).by(1)
-      last_response.should be_redirect
+  describe "GET /articles/:id" do
+    describe "if the article exists" do
+      it "renders a successful status" do
+        # arrange
+        @article = Article.create(title: "Woah awesome article")
+        # act
+        get "/articles/#{@article.id}"
+        # assert
+        expect(last_response.status).to eq(200)
+      end
+    end
+
+  end
+
+  describe "POST /articles" do
+    it "create a new article" do
+      Article.delete_all
+
+      expect {
+        post "/articles", title: "That's not cool. Fingers. Come on."
+      }.to change { Article.count }
     end
   end
 end

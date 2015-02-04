@@ -1,7 +1,9 @@
-class CreateBands < ActiveRecord::Migration
+require_relative '../../config/environment'
+
+class CreateArticles < ActiveRecord::Migration
   def change
-    create_table(:bands) do |t|
-      t.string :name
+    create_table :articles do |t|
+      t.string :title
     end
   end
 end
