@@ -1,5 +1,3 @@
-require_relative '../../config/environment'
-
 class CreateArticles < ActiveRecord::Migration
   def change
     create_table :articles do |t|
